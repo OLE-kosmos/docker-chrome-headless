@@ -3,7 +3,7 @@
 umask 000
 
 if [[ "${DOCROOT}" != "" ]]; then
-    sed -i "s#root /code/#root ${DOCROOT}/#" /etc/nginx/sites-enabled/mink
+    sed -i "s#<<DOCROOT>>#${DOCROOT}/#" /etc/nginx/sites-enabled/vhost.conf
 fi
 
 /usr/bin/supervisord -n -c /etc/supervisord.conf > /dev/null 2>&1 &
