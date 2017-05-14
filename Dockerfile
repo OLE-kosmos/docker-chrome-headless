@@ -41,7 +41,7 @@ COPY files/supervisord.conf /etc/supervisord.conf
 
 COPY files/entrypoint.sh /entrypoint.sh
 
-COPY files/mink_vhost.conf /etc/nginx/sites-enabled/mink
+COPY files/vhost.conf /etc/nginx/sites-enabled/vhost.conf
 
 ENTRYPOINT ["/entrypoint.sh"]
 
