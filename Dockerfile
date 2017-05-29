@@ -13,7 +13,7 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /usr/local/etc/php-fpm.c
 
 RUN apt-get update -qqy \
   && apt-get -qqy install wget ca-certificates apt-transport-https nginx supervisor ttf-wqy-zenhei ttf-unfonts-core \
-    unzip git x11vnc xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable xvfb \
+    unzip git x11vnc xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable xvfb libpng12-dev libjpeg-dev \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -22,6 +22,8 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
   && apt-get -qqy install google-chrome-unstable \
   && rm /etc/apt/sources.list.d/google-chrome.list \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN docker-php-ext-install gd
 
 RUN useradd headless --shell /bin/bash --create-home \
   && usermod -a -G sudo headless \
