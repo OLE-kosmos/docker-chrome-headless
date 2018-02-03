@@ -6,7 +6,7 @@ if [[ "${DOCROOT}" != "" ]]; then
     sed -i "s#<<DOCROOT>>#${DOCROOT}/#" /etc/nginx/sites-enabled/vhost.conf
 fi
 
-if [[ ! -z "${XVFB}" ]]; then
+if [[ ! -z "${AUTOSTART_XVFB}" ]]; then
     sed -i "s#<<AUTOSTART_XVFB>>#true#" /etc/supervisord.conf
     sed -i "s#--disable-gpu --headless##" /etc/supervisord.conf
 else
