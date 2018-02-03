@@ -13,6 +13,10 @@ else
     sed -i "s#<<AUTOSTART_XVFB>>#false#" /etc/supervisord.conf
 fi
 
+if [[ ! -z "${CHROME_BUILD}" ]]; then
+    sed -i "s#google-chrome-stable#${CHROME_BUILD}#" /etc/supervisord.conf
+fi
+
 /usr/bin/supervisord -n -c /etc/supervisord.conf > /dev/null 2>&1 &
 
 if [[ $# -eq 1 && $1 == "bash" ]]; then
