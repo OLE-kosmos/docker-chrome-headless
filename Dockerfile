@@ -13,7 +13,7 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /usr/local/etc/php-fpm.c
  && sed -i -e "s/pm.max_requests = 500/pm.max_requests = 200/g" /usr/local/etc/php-fpm.d/www.conf
 
 RUN apt-get update -qqy \
-  && apt-get -qqy install wget ca-certificates apt-transport-https nginx supervisor ttf-wqy-zenhei fonts-unfonts-core \
+  && apt-get -qqy install wget ca-certificates apt-transport-https nginx supervisor ttf-wqy-zenhei \
     unzip git x11vnc xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable xvfb libpng-dev libjpeg-dev gnupg \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
