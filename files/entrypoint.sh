@@ -8,7 +8,8 @@ fi
 
 if [[ ! -z "${AUTOSTART_XVFB}" ]]; then
     sed -i "s#<<AUTOSTART_XVFB>>#true#" /etc/supervisord.conf
-    sed -i "s#--disable-gpu --headless##" /etc/supervisord.conf
+    sed -i "s#--disable-gpu --headless##" /etc/supervisord.conf"
+    sed -i "s#--no-startup-window##" /etc/supervisord.conf"
 else
     sed -i "s#<<AUTOSTART_XVFB>>#false#" /etc/supervisord.conf
 fi
