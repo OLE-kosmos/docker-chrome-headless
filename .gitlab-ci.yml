@@ -3,28 +3,50 @@ image: docker:latest
 services:
   - docker:dind
 
-build:
+.build:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$PHP_VERSION .
+    - docker push $CI_REGISTRY_IMAGE:PHP_VERSION
+  tags: [docker]
+
+build master:
+  variables:
+    TAG: master
+  extends: .build
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
-  only: [master]
+  only: ["master"]
   tags: [docker]
 
-build_branch:
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+build 7.4:
+  variables:
+    TAG: "7.4"
+  extends: .build
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-  only:
-    - "5.6"
-    - "7.0"
-    - "7.1"
-    - "7.2"
-    - "7.3"
-    - "7.4"
-    - "8.0"
-    - "8.1"
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+  only: ["7.4"]
+  tags: [docker]
+
+build 8.0:
+  variables:
+    TAG: "8.0"
+  extends: .build
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+  only: ["8.0"]
+  tags: [docker]
+
+build 8.1:
+  variables:
+    TAG: "8.1"
+  extends: .build
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+  only: ["8.1"]
   tags: [docker]
