@@ -1,4 +1,5 @@
-FROM php:8.0-fpm
+ARG PHP_VERSION=8.0
+FROM php:${PHP_VERSION}-fpm
 
 ENV DISPLAY=:99 \
     DBUS_SESSION_BUS_ADDRESS=/dev/null
