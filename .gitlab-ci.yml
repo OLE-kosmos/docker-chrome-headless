@@ -9,84 +9,38 @@ services:
   script:
     - docker build -t $CI_REGISTRY_IMAGE:$PHP_VERSION .
     - docker push $CI_REGISTRY_IMAGE:PHP_VERSION
+  only: [main]
   tags: [docker]
 
-build master:
-  variables:
-    TAG: master
+build latest:
   extends: .build
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
-  only: ["master"]
   tags: [docker]
 
-build 7.0:
-  variables:
-    TAG: "7.0"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.0"]
-  tags: [docker]
-
-build 7.1:
-  variables:
-    TAG: "7.1"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.1"]
-  tags: [docker]
-
-build 7.2:
-  variables:
-    TAG: "7.2"
+.build tag:
   extends: .build
   script:
     - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
     - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.2"]
-  tags: [docker]
-
-build 7.3:
-  variables:
-    TAG: "7.3"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.3"]
-  tags: [docker]
 
 build 7.4:
+  extends: .build tag
   variables:
     TAG: "7.4"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.4"]
-  tags: [docker]
 
 build 8.0:
+  extends: .build tag
   variables:
     TAG: "8.0"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["8.0"]
-  tags: [docker]
 
 build 8.1:
+  extends: .build tag
   variables:
     TAG: "8.1"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["8.1"]
-  tags: [docker]
+
+build 8.2:
+  extends: .build tag
+  variables:
+    TAG: "8.1"
