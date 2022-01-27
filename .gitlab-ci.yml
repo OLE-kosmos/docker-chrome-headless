@@ -21,6 +21,46 @@ build master:
   only: ["master"]
   tags: [docker]
 
+build 7.0:
+  variables:
+    TAG: "7.0"
+  extends: .build
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+  only: ["7.0"]
+  tags: [docker]
+
+build 7.1:
+  variables:
+    TAG: "7.1"
+  extends: .build
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+  only: ["7.1"]
+  tags: [docker]
+
+build 7.2:
+  variables:
+    TAG: "7.2"
+  extends: .build
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+  only: ["7.2"]
+  tags: [docker]
+
+build 7.3:
+  variables:
+    TAG: "7.3"
+  extends: .build
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+  only: ["7.3"]
+  tags: [docker]
+
 build 7.4:
   variables:
     TAG: "7.4"
