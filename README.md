@@ -8,15 +8,20 @@ See Dockerfile for details.
 
 ## Supported PHP versions
 
-Version support for PHP depends on the available tags of [Official PHP image] in `php-fpm` variant. Merge requests to add new releases are welcome!
+Version support for PHP depends on the available tags of [Official PHP image](https://hub.docker.com/_/php) in `php-fpm` variant.
+
+When a new version of PHP is released as a `php-fpm` image from , the "latest" CI builds of this should switch to that version for future builds.
 
 - Supported: 7.4, 8.0, 8.1.
 - Default: 8.0
+
+Merge requests to add new releases are welcome! See below.
 
 ## Updating the supported & default PHP versions
 
 - Modify the default version in `Dockerfile` (`ARG PHP_VERSION=x.x`)
 - Modify the tested/built versions in `.gitlab-ci.yml`
+- Modify the list of versions above in `README.md`.
 - Merge request to verify successful test builds
 
 ## Usage
