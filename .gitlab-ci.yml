@@ -25,7 +25,6 @@ services:
   script:
     - docker build -t $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:latest
-  only: [main]
   tags: [docker]
 
 .build tag:
@@ -33,9 +32,6 @@ services:
   script:
     - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
     - docker push $CI_REGISTRY_IMAGE:$TAG
-
-test latest:
-  extends: .test
 
 test 5.6:
   extends: .test tag
@@ -62,27 +58,6 @@ test 7.3:
   variables:
     TAG: "7.3"
 
-test 7.4:
-  extends: .test tag
-  variables:
-    TAG: "7.4"
-
-test 8.0:
-  extends: .test tag
-  variables:
-    TAG: "8.0"
-
-test 8.1:
-  extends: .test tag
-  variables:
-    TAG: "8.1"
-
-build latest:
-  extends: .build
-  script:
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
-
 build 5.6:
   extends: .build tag
   variables:
@@ -107,18 +82,3 @@ build 7.3:
   extends: .build tag
   variables:
     TAG: "7.3"
-
-build 7.4:
-  extends: .build tag
-  variables:
-    TAG: "7.4"
-
-build 8.0:
-  extends: .build tag
-  variables:
-    TAG: "8.0"
-
-build 8.1:
-  extends: .build tag
-  variables:
-    TAG: "8.1"
