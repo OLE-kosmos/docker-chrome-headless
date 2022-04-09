@@ -1,92 +1,74 @@
 image: docker:latest
 
+stages:
+  - test
+  - build
+
 services:
   - docker:dind
 
+.test:
+  stage: test
+  script:
+    - docker build .
+  tags: [docker]
+
+.test tag:
+  extends: .test
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG .
+
 .build:
+  stage: build
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:$PHP_VERSION .
-    - docker push $CI_REGISTRY_IMAGE:PHP_VERSION
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only: [main]
   tags: [docker]
 
-build master:
+.build tag:
+  extends: .build
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
+    - docker push $CI_REGISTRY_IMAGE:$TAG
+
+test latest:
+  extends: .test
+
+test 7.4:
+  extends: .test tag
   variables:
-    TAG: master
+    TAG: "7.4"
+
+test 8.0:
+  extends: .test tag
+  variables:
+    TAG: "8.0"
+
+test 8.1:
+  extends: .test tag
+  variables:
+    TAG: "8.1"
+
+build latest:
   extends: .build
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
-  only: ["master"]
-  tags: [docker]
-
-build 7.0:
-  variables:
-    TAG: "7.0"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.0"]
-  tags: [docker]
-
-build 7.1:
-  variables:
-    TAG: "7.1"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.1"]
-  tags: [docker]
-
-build 7.2:
-  variables:
-    TAG: "7.2"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.2"]
-  tags: [docker]
-
-build 7.3:
-  variables:
-    TAG: "7.3"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.3"]
-  tags: [docker]
 
 build 7.4:
+  extends: .build tag
   variables:
     TAG: "7.4"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["7.4"]
-  tags: [docker]
 
 build 8.0:
+  extends: .build tag
   variables:
     TAG: "8.0"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["8.0"]
-  tags: [docker]
 
 build 8.1:
+  extends: .build tag
   variables:
     TAG: "8.1"
-  extends: .build
-  script:
-    - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker push $CI_REGISTRY_IMAGE:$TAG
-  only: ["8.1"]
-  tags: [docker]
