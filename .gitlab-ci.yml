@@ -52,11 +52,6 @@ test 8.1:
   variables:
     TAG: "8.1"
 
-test 8.2:
-  extends: .test tag
-  variables:
-    TAG: "8.2"
-
 build latest:
   extends: .build
   script:
@@ -77,8 +72,3 @@ build 8.1:
   extends: .build tag
   variables:
     TAG: "8.1"
-
-build 8.2:
-  extends: .build tag
-  variables:
-    TAG: "8.2"
