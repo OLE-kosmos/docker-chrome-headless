@@ -1,22 +1,31 @@
 image: docker:latest
 
+stages:
+  - test
+  - build
+
 services:
   - docker:dind
 
+.test:
+  stage: test
+  script:
+    - docker build .
+  tags: [docker]
+
+.test tag:
+  extends: .test
+  script:
+    - docker build --build-arg PHP_VERSION=$TAG .
+
 .build:
+  stage: build
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:$PHP_VERSION .
-    - docker push $CI_REGISTRY_IMAGE:PHP_VERSION
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
   only: [main]
-  tags: [docker]
-
-build latest:
-  extends: .build
-  script:
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
   tags: [docker]
 
 .build tag:
@@ -24,6 +33,35 @@ build latest:
   script:
     - docker build --build-arg PHP_VERSION=$TAG -t $CI_REGISTRY_IMAGE:$TAG .
     - docker push $CI_REGISTRY_IMAGE:$TAG
+
+test latest:
+  extends: .test
+
+test 7.4:
+  extends: .test tag
+  variables:
+    TAG: "7.4"
+
+test 8.0:
+  extends: .test tag
+  variables:
+    TAG: "8.0"
+
+test 8.1:
+  extends: .test tag
+  variables:
+    TAG: "8.1"
+
+test 8.2:
+  extends: .test tag
+  variables:
+    TAG: "8.2"
+
+build latest:
+  extends: .build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
 
 build 7.4:
   extends: .build tag
@@ -43,4 +81,4 @@ build 8.1:
 build 8.2:
   extends: .build tag
   variables:
-    TAG: "8.1"
+    TAG: "8.2"
