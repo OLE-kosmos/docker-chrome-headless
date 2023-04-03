@@ -12,8 +12,8 @@ Version support for PHP depends on the available tags of [Official PHP image](ht
 
 When a new version of PHP is released as a `php-fpm` image from , the "latest" CI builds of this should switch to that version for future builds.
 
-- Supported: 7.4, 8.0, 8.1.
-- Default: 8.0
+- Supported: 7.4, 8.0, 8.1, 8.2
+- Default: 8.1
 
 Merge requests to add new releases are welcome! See below.
 
