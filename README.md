@@ -2,7 +2,7 @@
 
 This project provides a Docker image for use in [behat-chrome/behat-chrome-extension](https://gitlab.com/behat-chrome/behat-chrome-extension) & [behat-chrome/chrome-mink-driver](https://gitlab.com/behat-chrome/chrome-mink-driver).
 
-It builds images for a range of supported PHP versions and adds the current release of Chrome.
+The built images provide a range of supported PHP versions and adds the current release of Chrome, along with NginX in a configuration to serve Mink's test fixtures.
 
 See Dockerfile for details.
 
@@ -26,4 +26,6 @@ Merge requests to add new releases are welcome! See below.
 
 ## Usage
 
-This is really only intended as a tool to facilitate testing of [behat-chrome/behat-chrome-extension](https://gitlab.com/behat-chrome/behat-chrome-extension) & [behat-chrome/chrome-mink-driver](https://gitlab.com/behat-chrome/chrome-mink-driver).
+This is intended as a tool to facilitate testing of [behat-chrome/behat-chrome-extension](https://gitlab.com/behat-chrome/behat-chrome-extension) & [behat-chrome/chrome-mink-driver](https://gitlab.com/behat-chrome/chrome-mink-driver). See those project's README and CI configuration for details.
+
+This project is not intended as a prepackaged Chrome environment for general use in CI.
