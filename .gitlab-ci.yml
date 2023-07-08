@@ -37,11 +37,6 @@ services:
 test latest:
   extends: .test
 
-test 7.4:
-  extends: .test tag
-  variables:
-    TAG: "7.4"
-
 test 8.0:
   extends: .test tag
   variables:
@@ -62,11 +57,6 @@ build latest:
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
-
-build 7.4:
-  extends: .build tag
-  variables:
-    TAG: "7.4"
 
 build 8.0:
   extends: .build tag
