@@ -1,0 +1,8 @@
+#!/usr/bin/env groovy
+
+// Utilisation du pipeline générique de kosmos-pipeline
+pipelineDocker(
+    IMAGE_NAME: 'sko/docker-chrome-headless',
+    VERSION_MASTER: '7.1',
+    NOTIF_CHANNEL: 'acia_dev'
+)
